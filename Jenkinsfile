@@ -1,8 +1,7 @@
-node{
-  stage('SCM checkout'){    
-    git 'https://github.com/yogi40911/my-app'
-  }
-stages {
+pipeline {
+    agent any
+
+    stages {
         stage ('Compile Stage') {
 
             steps {
@@ -11,9 +10,23 @@ stages {
                 }
             }
         }
-  stage('Build package'){
-   // def mavenhome=tool name: 'Maven3', type: 'maven'
-   // sh "${mavenhome}/bin/mvn package"  
-    sh 'mvn package'
-  }
+
+        stage ('Testing Stage') {
+
+            steps {
+                withMaven(maven : 'maven_3_5_0') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+
+        stage ('Deployment Stage') {
+            steps {
+                withMaven(maven : 'maven_3_5_0') {
+                    sh 'mvn deploy'
+                }
+            }
+        }
+    }
 }
