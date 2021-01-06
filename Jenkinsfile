@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    stages {
+    
         stage ('Compile Stage') {
 
             steps {
@@ -20,5 +20,5 @@ pipeline {
         stage ('Deployment Stage') {
             sh 'mvn deploy'
         }
-    }
+    
 }
